@@ -15,12 +15,12 @@ using namespace std;
 #define enld endl
 #define INF 9999999999999
 //----------------------------------------------------
-struct edge { int to, cost; };//•Ó‚ªL‚Ñ‚Ä‚¢‚é’¸“_A‚»‚Ì’¸“_‚Ü‚Å‚ÌƒRƒXƒg
-typedef pair<int, int> P;
+struct edge { int to, cost; };//è¾ºãŒä¼¸ã³ã¦ã„ã‚‹é ‚ç‚¹ã€ãã®é ‚ç‚¹ã¾ã§ã®ã‚³ã‚¹ãƒˆ
+typedef pair<int, int> P;//pair<æœ€çŸ­è·é›¢,é ‚ç‚¹ç•ªå·>
 const int MAX_V;
-int V;//’¸“_”
-vector<vector<edge>> G(MAX_V, vector<edge>());//—×ÚƒŠƒXƒg
-vector<int> d(MAX_V, INF)//’¸“_s‚©‚ç‚ÌÅ’Z‹——£
+int V;//é ‚ç‚¹æ•°
+vector<vector<edge>> G(MAX_V, vector<edge>());//éš£æ¥ãƒªã‚¹ãƒˆ
+vector<int> d(MAX_V, INF)//é ‚ç‚¹sã‹ã‚‰ã®æœ€çŸ­è·é›¢
 void AddEdge(int u, int v, cost)
 {
 	G[u].push_back(edge{ v,cost });
