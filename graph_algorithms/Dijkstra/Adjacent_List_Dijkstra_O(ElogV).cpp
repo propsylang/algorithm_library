@@ -42,6 +42,7 @@ void Adjacent_List_Dijkstra(int s)
 			edge e = G[v][i];
 			if (d[e.to] > d[v] + e.cost)
 			{
+				d[e.to] = d[v] + e.cost;
 				que.push(P(d[e.to], e.to));
 			}
 		}
