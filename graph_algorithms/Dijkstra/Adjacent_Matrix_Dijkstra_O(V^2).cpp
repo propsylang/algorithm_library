@@ -1,11 +1,13 @@
 #include <iostream>
 #include <algorithm>
+#include <functional>
 #include <cmath>
 #include <vector>
 #include <map>
 #include <set>
 #include <string>
-#include<bitset>
+#include <bitset>
+#include <queue>
 
 using namespace std;
 #define loop(i,n) for(int i = 0; i < (n); ++i)
@@ -13,37 +15,30 @@ using namespace std;
 #define all(v) v.begin(),v.end()
 #define show(v) for(int i = 0; i < v.size(); ++i){cout<<i<<": "<<v[i]<<" "<<endl;}
 #define enld endl
-#define INF 9999999999999
+#define INF 999999999
 //----------------------------------------------------
-struct edge { int to, cost; };//•Ó‚ªL‚Ñ‚Ä‚¢‚é’¸“_A‚»‚Ì’¸“_‚Ü‚Å‚ÌƒRƒXƒg
-typedef pair<int, int> P;
-const int MAX_V;
-int V;//’¸“_”
-vector<vector<edge>> G(MAX_V, vector<edge>());//—×ÚƒŠƒXƒg
-vector<int> d(MAX_V, INF)//’¸“_s‚©‚ç‚ÌÅ’Z‹——£
-void AddEdge(int u, int v, cost)
+vector<vector<int>> cost(10010, vector<int>(10010, INF));//cost[u][v]ãŒu->vã®ã‚³ã‚¹ãƒˆ
+vector<int> d(10010, INF);//å§‹ç‚¹ã‹ã‚‰ã®æœ€çŸ­è·é›¢
+vector<bool> used(10010, false);//æœ€çŸ­è·é›¢ãŒç¢ºå®šã—ã¦ã„ã‚‹ã‹
+int V;
+void AddEdge(int u, int v, int c)//u->vã®ã‚³ã‚¹ãƒˆãŒc
 {
-	G[u].push_back(edge{ v,cost });
-	G[v].push_back(edge{ u,cost });
+	cost[u][v] = cost[v][u] = c;
 }
-void Adjacent_List_Dijkstra(int s)
-{
-	priority_queue<P, vector<P>, greater<P>> que;
+void Adjacent_Matrix_Dijkstra(int s) {
 	d[s] = 0;
-	que.push(P(0, s));
-
-	while (!que.empty())
+	while (true)
 	{
-		P p = que.top(); que.pop();
-		int v = p.second;
-		if (d[v] < p.first)continue;
-		for (int i = 0; i < G[v].size(); ++i)
+		int v = -1;
+		for (int u = 0; u < V; ++u)
 		{
-			edge e = G[v][i];
-			if (d[e.to] > d[v] + e.cost)
-			{
-				que.push(P(d[e.to], e.to));
-			}
+			if (!used[u] && (v == -1 || d[u] < d[v])) v = u;
+		}
+		if (v == -1)break;
+		used[v] = true;
+		for (int u = 0; u < V; ++u)
+		{
+			d[u] = min(d[u], d[v] + cost[v][u]);
 		}
 	}
 }
@@ -52,6 +47,17 @@ int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-
+	int e, r; cin >> V >> e >> r;//v=é ‚ç‚¹æ•°,e=è¾ºæ•°,r=å§‹ç‚¹
+	loop(i, e)
+	{
+	int s, t, d; cin >> s >> t >> d;//s->tã®ã‚³ã‚¹ãƒˆãŒd
+	AddEdge(s, t, d);
+	}
+	Adjacent_Matrix_Dijkstra(r);
+	loop(i, V)
+	{
+	if (d[i] == INF) cout << "INF" << enld;
+	else cout << d[i] << endl;
+	}
 	return 0;
 }
